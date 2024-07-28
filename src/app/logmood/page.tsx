@@ -12,6 +12,7 @@ import Typography from '@mui/material/Typography';
 import { CheckboxGroup, Checkbox } from "@nextui-org/checkbox";
 import { Textarea } from "@nextui-org/input";
 import { Button } from "@nextui-org/button";
+import Link from 'next/link';
 
 export default function LogMood() {
   
@@ -22,9 +23,11 @@ export default function LogMood() {
         <Box sx={{display: 'flex', flexDirection: 'row', gap: '50px'
         }}>
         
+        <Link href="/" passHref>
         <Button color="secondary" >
-            Back
-          </Button>
+            back
+        </Button>
+        </Link>
 
           <Typography variant="h4" sx={{ fontWeight: "bold", marginBottom: '110px' }}>
             how are you feeling today?
@@ -69,7 +72,7 @@ export default function LogMood() {
           
           <Box sx={{ marginBottom: '110px' }}>
             <CheckboxGroup style={{ transform: 'scale(1.5)' }}>
-              <Checkbox value="family">friends</Checkbox>
+              <Checkbox value="family">family</Checkbox>
               <Checkbox value="work">work</Checkbox>
               <Checkbox value="school">school</Checkbox>
               <Checkbox value="friends">friends</Checkbox>
