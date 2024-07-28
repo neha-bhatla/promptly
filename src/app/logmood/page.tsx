@@ -15,6 +15,7 @@ import { Button } from "@nextui-org/button";
 import Link from 'next/link';
 
 export default function LogMood() {
+  
   return (
     <center>
       <div>
@@ -39,7 +40,7 @@ export default function LogMood() {
               <SentimentVerySatisfiedOutlinedIcon style={{ transform: 'scale(7)' }} />
             </button>
             <button>
-              <SentimentSatisfiedOutlinedIcon style={{ transform: 'scale(7)' }} />
+              <SentimentSatisfiedOutlinedIcon  style={{ transform: 'scale(7)' }} />
             </button>
             <button>
               <SentimentNeutralOutlinedIcon style={{ transform: 'scale(7)' }} />
