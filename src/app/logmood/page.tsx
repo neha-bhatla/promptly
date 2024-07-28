@@ -71,7 +71,7 @@ export default function LogMood() {
           
           <Box sx={{ marginBottom: '110px' }}>
             <CheckboxGroup style={{ transform: 'scale(1.5)' }}>
-              <Checkbox value="family">friends</Checkbox>
+              <Checkbox value="family">family</Checkbox>
               <Checkbox value="work">work</Checkbox>
               <Checkbox value="school">school</Checkbox>
               <Checkbox value="friends">friends</Checkbox>

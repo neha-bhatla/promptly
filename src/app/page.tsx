@@ -23,21 +23,34 @@ export default function App() {
             promptly.
           </Typography>
           <Typography variant="h6" sx={{ fontWeight: "regular", paddingTop: '10px' }}>
-            hi there, username! 👋🏼
+            hi there! 👋🏼
           </Typography>
 
-          <Link href="/" passHref>
+          <Box sx={{
+            display: 'flex',
+            flexDirection: 'row',
+            justifyContent: 'center',
+            alignItems: 'center',
+            gap:'10px'
+          }}>
+          <Link href="/login" passHref>
             <Button color="secondary" style={{ padding: '10px', marginTop: '20px' }}>
               login
             </Button>
           </Link>
+          <Link href="/register" passHref>
+            <Button color="secondary" style={{ padding: '10px', marginTop: '20px' }}>
+              register
+            </Button>
+          </Link>
+          </Box>
         </Box>
       
         <div style={{
           display: 'flex',
           justifyContent: 'center',
           alignItems: 'center',
-          height: '70vh',  // Adjusted height to make room for the Fab button
+          height: '70vh',  
           width: '100vw', 
           overflow: 'hidden', 
           margin: 0
@@ -55,7 +68,7 @@ export default function App() {
           display: 'flex',
           justifyContent: 'center',
           marginTop: '25px',
-          marginBottom: '50px',  // Added marginBottom to add space from the bottom
+          marginBottom: '50px',  
         }}>
           <Link href="/logmood" passHref>
             <Fab color="secondary" aria-label="edit">
