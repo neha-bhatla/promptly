@@ -1,11 +1,34 @@
+'use client';
 import React from 'react';
 import { Box, Typography } from '@mui/material'; 
 import {Input} from "@nextui-org/input";
 import {Button, ButtonGroup} from "@nextui-org/button";
+import {useState} from 'react';
+import api from '../../api/axiosInstance';
+import RegistrationResponse from '../components/registrationResponse/registrationResponse';
 
+export default function Register() {
+  const[username, setUsername] = useState<string>("");
+  const[password, setPassword] = useState<string>("");
+  const[firstName, setFirstName] = useState<string>("");
+  const[lastName, setLastName] = useState<string>("");
+  const[message, setMessage] = useState<string>("");
+  
 
-export default function Login() {
+  const handleRegistration = async () => {
+    const registrationData = {username, password, firstName, lastName};
+    try {
+      const response = await api.post('/api/register', registrationData);
+      setMessage(response.data.message);
+      console.log(response.data.message)
+
+    } catch (error) {
+      console.error('Error registration', error);
+ 
+    }
+  };
   return (
+    <>
     <Box
       sx={{
         display: 'flex',
@@ -28,13 +51,16 @@ export default function Login() {
           register for an account today :)
         </Typography>
         <Box sx={{ display: 'flex', flexDirection: 'column', gap: '25px' }}>
-            <Input type="first name" label="first name" placeholder="please enter your first name" fullWidth />
-            <Input type="last name" label="last name" placeholder="please enter your last name" fullWidth />  
-            <Input type="username" label="username" placeholder="please enter a username" fullWidth />
-            <Input type="password" label="password" placeholder="please enter a password" fullWidth />
-            <Button color="secondary" >create account</Button>
+            <Input value={firstName} onChange={(e) => setFirstName(e.target.value)}  type="text" label="first name" placeholder="please enter your first name" fullWidth />
+            <Input value={lastName} onChange={(e) => setLastName(e.target.value)}  type="text" label="last name" placeholder="please enter your last name" fullWidth />  
+            <Input value={username} onChange={(e) => setUsername(e.target.value)} type="text" label="username" placeholder="please enter a username" fullWidth />
+            <Input value={password} onChange={(e) => setPassword(e.target.value)}  type="password" label="password" placeholder="please enter a password" fullWidth />
+            <Button color="secondary" onPress={handleRegistration} >create account</Button>
         </Box>
       </Box>
     </Box>
+    
+    <RegistrationResponse responseMessage={message} />
+    </>
   );
 }

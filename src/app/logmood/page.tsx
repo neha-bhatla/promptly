@@ -13,10 +13,36 @@ import { CheckboxGroup, Checkbox } from "@nextui-org/checkbox";
 import { Textarea } from "@nextui-org/input";
 import { Button } from "@nextui-org/button";
 import Link from 'next/link';
+import api from '../../api/axiosInstance';
+
+import {useState} from 'react';
 
 export default function LogMood() {
   
+  const[journalEntry, setJournalEntry] = useState<string>("");
+
+  var today = new Date();
+
+  const dd = String(today.getDate()).padStart(2, '0');
+  const mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+  const yyyy = today.getFullYear();
+  today = mm + '/' + dd + '/' + yyyy;
+
+  const handleEntry = async () => {
+    const loginData = {today, journalEntry};
+    try {
+      const response = await api.post('/api/login', loginData);
+      
+
+    } catch (error) {
+      console.error('Error logging in', error);
+ 
+    }
+  };
+
+
   return (
+    
     <center>
       <div>
         <Box sx={{ margin: 'auto 400px', marginTop: '50px', marginBottom: '50px', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
@@ -30,14 +56,14 @@ export default function LogMood() {
         </Link>
 
           <Typography variant="h4" sx={{ fontWeight: "bold", marginBottom: '110px' }}>
-            how are you feeling today?
+            how are you feeling today? 
           </Typography>
 
           </Box>
           
           <Box sx={{ display: 'flex', flexDirection: 'row', gap: '180px', marginBottom: '110px' }}>
             <button>
-              <SentimentVerySatisfiedOutlinedIcon style={{ transform: 'scale(7)' }} />
+              <SentimentVerySatisfiedOutlinedIcon style={{ transform: 'scale(7)', }} />
             </button>
             <button>
               <SentimentSatisfiedOutlinedIcon  style={{ transform: 'scale(7)' }} />
@@ -83,12 +109,14 @@ export default function LogMood() {
 
           <Textarea 
             label="let's journal! ✍🏼"
+            value={journalEntry}
+            onChange={(e) => setJournalEntry(e.target.value)}
             placeholder="start an entry"
             size="lg"
             style={{ marginBottom: '50px' }} 
           />
           
-          <Button color="primary" style={{ marginTop: '30px' }} >
+          <Button onPress={handleEntry} color="primary" style={{ marginTop: '30px' }} >
             Submit
           </Button>
           

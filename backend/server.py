@@ -15,28 +15,30 @@ table_journalEntries = dbname["journalEntries"]
 @app.route("/api/login", methods= ['POST'])
 def receive_dataLogin():
    data = request.json
+   print(data)
    loginUser = data.get('username', "")
    password=data.get('password', "")
-   return [loginUser, password]
+   print(loginUser)
+   print(password)
+   return login_response(loginUser, password)
 
 
+def login_response(loginUser, loginPassword):
 
-@app.route("/api/isLoggedIn", methods= ['GET'])
-def login_response():
-
-   loginUser= receive_dataLogin()[0]
-   loginPassword= receive_dataLogin()[1]
-   if not loginUser:
-      return jsonify({"message": "No user logged in"}), 400
+   if loginUser=="":
+      return jsonify({"message": "No user logged in"})
 
    rows = table_userInfo.find()
-   for row in rows:
-      if (row.get('username')==loginUser & row.get("password")==loginPassword):
-         return jsonify({"message": "found", "username": loginUser}), 200
-      elif(row.get('username')==loginUser & row.get("password")!=loginPassword):
-         return jsonify({"message": "incorrect username of password, try again"}), 200
 
-   return jsonify({"message": "not found"}), 404
+   for row in rows:
+      print("username: " +  row.get("username") +" vs " + loginUser)
+      print("password: " + row.get("password") + " vs " + loginPassword)
+      if (row.get('username')==loginUser and row.get("password")==loginPassword):
+         return jsonify({"message": "found", "username": loginUser})
+      elif(row.get('username')==loginUser and row.get("password")!=loginPassword):
+         return jsonify({"message": "incorrect username or password, try again"})
+
+   return jsonify({"message": "not found"})
 
 
       
@@ -46,17 +48,18 @@ def register():
    rows = table_userInfo.find()
    for row in rows:
       if (row.get('username')==data.get('username')):
-         return "username already exists"
+         return {"message": "username already exists"}
 
    table_userInfo.insert_one({"firstName":data.get("firstName"), "lastName": data.get("lastName"), "username": data.get("username"), "password": data.get("password")}) 
-   return "user successfully registered"
+   return {"message": "success"}
+
 
 
 @app.route("/api/entry/<username>", methods= ['POST']) 
 def entry(username):
    data = request.json
 
-   table_journalEntries.insert_one({"username": username, "entry": data.get("entry")}) 
+   table_journalEntries.insert_one({"username": "mehtas47", "date": data.get("today"), "entry": data.get("journalEntry")}) 
    return "entry added successfully for " + data.get("username")
 
 
@@ -75,7 +78,7 @@ def allEntries(username):
    return jsonify(rows), 200
     
 
-
+#for object id jsonify
 def convert_to_json_serializable(document):
     if isinstance(document, list):
         return [convert_to_json_serializable(item) for item in document]
