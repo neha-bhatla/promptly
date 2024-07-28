@@ -5,13 +5,14 @@ import Typography from '@mui/material/Typography';
 import { Box } from "@mui/material";
 import Fab from "@mui/material/Fab";
 import EditIcon from '@mui/icons-material/Edit';
-
+import Index from "./components/index";
 
 
 export default function App() {
   return (
     <div style={{ position: 'relative', height: '100vh', width: '100vw', margin: 0 }}>
-      <Box className="absolute top-[5.2vh] left-1/2 transform -translate-x-1/2 flex flex-col items-center">
+      <Index />
+      {/* <Box className="absolute top-[5.2vh] left-1/2 transform -translate-x-1/2 flex flex-col items-center">
         <Typography variant="h2" className="">
           <b>promptly.</b>
         </Typography>
@@ -37,7 +38,7 @@ export default function App() {
         <Calendar />
       </div>
 
-    </div>
+    </div> */}
     </div>
   );
 }
