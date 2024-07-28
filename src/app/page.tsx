@@ -11,12 +11,20 @@ import EditIcon from '@mui/icons-material/Edit';
 export default function App() {
   return (
     <div style={{ position: 'relative', height: '100vh', width: '100vw', margin: 0 }}>
-      <Box className="absolute top-[5.2vh] left-1/2 transform -translate-x-1/2 flex flex-col items-center">
-        <Typography variant="h2" className="">
-          <b>promptly.</b>
+      <Box sx={{
+        position: 'absolute',
+        top: '5.2vh', 
+        left: '50%', 
+        transform: 'translateX(-50%)',
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+      }}>
+        <Typography variant="h2" sx={{ fontWeight: "bold" }}>
+          promptly.
         </Typography>
-        <Typography variant="h6" className="pt-2">
-          hi there, username! 
+        <Typography variant="h6" sx={{ fontWeight: "regular", paddingTop: '10px' }}>
+          hi there, username! 👋🏼
         </Typography>
       </Box>
     
