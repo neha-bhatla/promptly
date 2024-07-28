@@ -16,22 +16,25 @@ table_journalEntries = dbname["journalEntries"]
 def receive_dataLogin():
    data = request.json
    loginUser = data.get('username', "")
-   return loginUser
+   password=data.get('password', "")
+   return [loginUser, password]
 
 
 
 @app.route("/api/isLoggedIn", methods= ['GET'])
 def login_response():
 
-   loginUser= receive_dataLogin()
-
+   loginUser= receive_dataLogin()[0]
+   loginPassword= receive_dataLogin()[1]
    if not loginUser:
       return jsonify({"message": "No user logged in"}), 400
 
    rows = table_userInfo.find()
    for row in rows:
-      if (row.get('username')==loginUser):
+      if (row.get('username')==loginUser & row.get("password")==loginPassword):
          return jsonify({"message": "found", "username": loginUser}), 200
+      elif(row.get('username')==loginUser & row.get("password")!=loginPassword):
+         return jsonify({"message": "incorrect username of password, try again"}), 200
 
    return jsonify({"message": "not found"}), 404
 
