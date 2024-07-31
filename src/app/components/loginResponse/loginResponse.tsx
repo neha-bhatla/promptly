@@ -4,14 +4,19 @@ import { Button } from '@nextui-org/button';
 import Link from 'next/link';
 import { Box } from '@mui/material';
 
-const LoginResponse = ({ responseMessage }: { responseMessage: string }) => {
+interface LoginResponseProps {
+  responseMessage: string;
+  username: string;
+}
+
+const LoginResponse: React.FC<LoginResponseProps> = ({responseMessage, username}) => {
   const router = useRouter();
  
   useEffect(() => {
     if (responseMessage === "found" ) {
-      router.push('/');
+      router.push(`/${username}`);
     }
-  }, [responseMessage, router]);
+  }, [responseMessage, router, username]);
 
   return (
     <div>

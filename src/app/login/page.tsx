@@ -66,7 +66,7 @@ export default function Login() {
       </Box>
     </Box>
 
-      <LoginResponse responseMessage={message} />
+      <LoginResponse responseMessage={message} username={username} />
       
     </>
   );

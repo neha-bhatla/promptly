@@ -1,4 +1,4 @@
-'use client';
+"use client"
 import React from "react";
 import { Calendar } from "@nextui-org/react";
 import Typography from '@mui/material/Typography';
@@ -6,13 +6,19 @@ import { Box } from "@mui/material";
 import Fab from "@mui/material/Fab";
 import EditIcon from '@mui/icons-material/Edit';
 import Link from 'next/link';
-import { Button } from "@nextui-org/button";
-import { useRouter } from 'next/router';
+import {today, getLocalTimeZone} from "@internationalized/date";
+import {useState} from "react";
+import DateEntries from "../components/dateEntries/dateEntries";
+import api from "../../api/axiosInstance";
 
-export default function App() {
-  const router = useRouter();
-  const { username } = router.query;
+
+const UserPage: React.FC<{ params: { username: string } }> = ({ params }) => {
+  const { username } = params; 
   
+  let [value, setValue] = useState();
+  let [entries, setEntries] = useState();
+
+
   return (
     <center>
       <div style={{ position: 'relative', margin: 0 }}>
@@ -27,27 +33,15 @@ export default function App() {
             promptly.
           </Typography>
           <Typography variant="h6" sx={{ fontWeight: "regular", paddingTop: '10px' }}>
-            hi there! 👋🏼
+            hi there, {username}! 👋🏼
           </Typography>
 
-          <Box sx={{
-            display: 'flex',
-            flexDirection: 'row',
-            justifyContent: 'center',
-            alignItems: 'center',
-            gap:'10px'
-          }}>
-          <Link href="/login" passHref>
-            <Button color="secondary" style={{ padding: '10px', marginTop: '20px' }}>
-              login
-            </Button>
-          </Link>
-          <Link href="/register" passHref>
-            <Button color="secondary" style={{ padding: '10px', marginTop: '20px' }}>
-              register
-            </Button>
-          </Link>
-          </Box>
+          <Typography variant="h6" sx={{ fontWeight: "regular", paddingTop: '10px' }}>
+            let's journal!
+          </Typography>
+
+
+
         </Box>
       
         <div style={{
@@ -64,7 +58,16 @@ export default function App() {
             transformOrigin: 'center',
             margin: 'auto'
           }}>
-            <Calendar />
+
+          <Calendar 
+
+            aria-label="Date (No Selection)"
+            value={value} 
+            onChange={setValue}
+          />
+
+          {value && <DateEntries dateStr={value.toString()} username={username} />}
+
           </div>
         </div>
 
@@ -74,7 +77,7 @@ export default function App() {
           marginTop: '25px',
           marginBottom: '50px',  
         }}>
-          <Link href="/logmood" passHref>
+          <Link href={`/logmood/${username}`} passHref>
             <Fab color="secondary" aria-label="edit">
               <EditIcon />
             </Fab>
@@ -86,3 +89,4 @@ export default function App() {
     </center>
   );
 }
+export default UserPage;

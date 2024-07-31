@@ -18,8 +18,6 @@ def receive_dataLogin():
    print(data)
    loginUser = data.get('username', "")
    password=data.get('password', "")
-   print(loginUser)
-   print(password)
    return login_response(loginUser, password)
 
 
@@ -57,13 +55,36 @@ def register():
 
 @app.route("/api/entry/<username>", methods= ['POST']) 
 def entry(username):
-   data = request.json
+    try:
+        data = request.json
 
-   table_journalEntries.insert_one({"username": "mehtas47", "date": data.get("today"), "entry": data.get("journalEntry")}) 
-   return "entry added successfully for " + data.get("username")
+        if not data or 'journalEntry' not in data or 'today' not in data:
+            return jsonify({"error": "Invalid input"}), 400
+
+        table_journalEntries.insert_one({
+            "username": username,
+            "date": data.get("today"),
+            "entry": data.get("journalEntry")
+        })
+
+        return jsonify({"message": f"Entry added successfully for {username}"}), 201
+
+    except Exception as e:
+        print(f"Error: {e}")
+        return jsonify({"error": "An error occurred"}), 500
+    
+
+@app.route("/api/allEntries/<date>/<username>", methods= ['GET'])  
+def dateEntries(date,username):
+   if not username:
+      return jsonify({"message": "No user logged in"}), 400
+
+   rows = list(table_journalEntries.find({"date": date},{ "_id": 0}))
 
 
-
+   return jsonify(rows), 200
+    
+    
 
 @app.route("/api/allEntries/<username>", methods= ['GET'])  
 def allEntries(username):

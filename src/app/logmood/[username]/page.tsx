@@ -13,11 +13,13 @@ import { CheckboxGroup, Checkbox } from "@nextui-org/checkbox";
 import { Textarea } from "@nextui-org/input";
 import { Button } from "@nextui-org/button";
 import Link from 'next/link';
-import api from '../../api/axiosInstance';
+import api from '../../../api/axiosInstance';
 
 import {useState} from 'react';
 
-export default function LogMood() {
+const LogMood: React.FC<{ params: { username: string } }> = ({ params }) => {
+  const { username } = params; // Access dynamic route parameter
+
   
   const[journalEntry, setJournalEntry] = useState<string>("");
 
@@ -26,12 +28,12 @@ export default function LogMood() {
   const dd = String(today.getDate()).padStart(2, '0');
   const mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
   const yyyy = today.getFullYear();
-  today = mm + '/' + dd + '/' + yyyy;
+  today = yyyy + '-' + mm + '-' + dd;
 
   const handleEntry = async () => {
-    const loginData = {today, journalEntry};
+    const entryData = {today, journalEntry,username};
     try {
-      const response = await api.post('/api/login', loginData);
+      const response = await api.post(`/api/entry/${username}`, entryData);
       
 
     } catch (error) {
@@ -116,12 +118,17 @@ export default function LogMood() {
             style={{ marginBottom: '50px' }} 
           />
           
+          <Link href={`/${username}`} passHref>
           <Button onPress={handleEntry} color="primary" style={{ marginTop: '30px' }} >
             Submit
+
           </Button>
+          </Link>
           
         </Box>
       </div>
     </center>
   );
 }
+
+export default LogMood;
